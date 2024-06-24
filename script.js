@@ -1,16 +1,17 @@
-let tasks=[];
+// scripts.js
 
- function addTask(){
-    const taskinput=document.getElementById('taskInput').Value.trim();
-    if(taskinput) return;
+let tasks = [];
 
-    tasks.push({task:taskinput,complete:false});
-    tasks.getElementById('taskInput').value='';
-    renderTask();
- }
+function addTask() {
+    const taskText = document.getElementById('taskInput').value.trim();
+    if (!taskText) return;
 
+    tasks.push({ task: taskText, completed: false });
+    document.getElementById('taskInput').value = '';
+    renderTasks();
+}
 
- function renderTask() {
+function renderTasks() {
     const taskList = document.getElementById('taskList');
     taskList.innerHTML = '';
 
@@ -18,23 +19,33 @@ let tasks=[];
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${index + 1}</td>
-            <td id="task-${index}" onclick="toggleComplete(${index})" style="cursor:pointer; ${task.completed ? 'text-decoration: line-through;' : ''}">
-                ${task.task}
-            </td>
+            <td id="task-${index}" onclick="toggleComplete(${index})" style="cursor: pointer; ${task.completed ? 'text-decoration: line-through;' : ''}">${task.task}</td>
             <td>
-                <button class="btn btn-success btn-sm" onclick="editTask(${index})">Edit</button>
-                <button class="btn btn-primary btn-sm" onclick="toggleComplete(${index})">${task.completed ? 'Undo' : 'Complete'}</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteTask(${index})">Delete</button>
+                <button class="btn btn-sm btn-primary mr-1" onclick="editTask(${index})">Edit</button>
+                <button class="btn btn-sm btn-success mr-1" onclick="toggleComplete(${index})">${task.completed ? 'Undo' : 'Complete'}</button>
+                <button class="btn btn-sm btn-danger" onclick="deleteTask(${index})">Delete</button>
             </td>
         `;
         taskList.appendChild(row);
     });
 }
-function editTask(index){
-    const newtask=prompt('enter a new task:-',tasks[index].task)
-    if (newtask !== null) {
-        tasks[index].task = newtask.trim();
-        renderTask();
+
+function editTask(index) {
+    const newTask = prompt('Enter a new task:', tasks[index].task);
+    if (newTask !== null) {
+        tasks[index].task = newTask.trim();
+        renderTasks();
     }
 }
- functio
+
+function toggleComplete(index) {
+    tasks[index].completed = !tasks[index].completed;
+    renderTasks();
+}
+
+function deleteTask(index) {
+    tasks.splice(index, 1);
+    renderTasks();
+}
+
+renderTasks();
