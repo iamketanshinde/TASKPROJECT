@@ -30,4 +30,11 @@ let tasks=[];
         taskList.appendChild(row);
     });
 }
-
+function editTask(index){
+    const newtask=prompt('enter a new task:-',tasks[index].task)
+    if (newtask !== null) {
+        tasks[index].task = newtask.trim();
+        renderTask();
+    }
+}
+ functio
